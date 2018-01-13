@@ -6,7 +6,7 @@
 
 The goals / steps of this project are the following:
 
-* Perform a Histogram of Oriented Gradients (HOG) feature extraction on a labeled training set of images and train a classifier Linear SVM classifier
+* Perform a Histogram of Oriented Gradients (HOG) feature extraction on a labeled training set of images and train a Linear SVM classifier
 * Apply a color transform and append binned color features, as well as histograms of color, to the HOG feature vector. 
 * Implement a sliding-window technique and use the trained classifier to search for vehicles in images.
 * Estimate a bounding box for vehicles detected.
@@ -15,13 +15,37 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 [image1]: ./output_images/car_not_car.png
-[image2]: ./output_images/hog.png
-[image3]: ./output_images/bboxes.png
-[image4]: ./output_images/bboxes2.png
-[image5]: ./output_images/bboxes3.png
-[image6]: ./output_images/heatmap1.png
-[image7]: ./output_images/heatmap2.png
-[image8]: ./output_images/detection_example.png
+[image2]: ./output_images/hog1.png
+[image3]: ./output_images/hog2.png
+[image4]: ./output_images/hog3.png
+[image5]: ./output_images/hog4.png
+[image6]: ./output_images/hog5.png
+[image7]: ./output_images/hog6.png
+[image8]: ./output_images/bboxes.png
+[image9]: ./output_images/bboxes2.png
+[image10]: ./output_images/bboxes3.png
+[image11]: ./output_images/bboxes4.png
+[image12]: ./output_images/bboxes5.png
+[image13]: ./output_images/bboxes6.png
+[image14]: ./output_images/bboxes7.png
+[image15]: ./output_images/bboxes8.png
+[image16]: ./output_images/bboxes9.png
+[image17]: ./output_images/bboxes10.png
+[image18]: ./output_images/bboxes11.png
+[image19]: ./output_images/bboxes12.png
+[image20]: ./output_images/bboxes13.png
+[image21]: ./output_images/heatmap1.png
+[image22]: ./output_images/heatmap2.png
+[image23]: ./output_images/heatmap3.png
+[image24]: ./output_images/heatmap4.png
+[image25]: ./output_images/heatmap5.png
+[image26]: ./output_images/heatmap6.png
+[image27]: ./output_images/heatmap7.png
+[image28]: ./output_images/heatmap8.png
+[image29]: ./output_images/heatmap9.png
+[image30]: ./output_images/heatmap10.png
+[image31]: ./output_images/heatmap11.png
+[image32]: ./output_images/detection_example.png
 [video1]: ./output_videos/project_video.mp4
 
 
@@ -54,7 +78,11 @@ I then explored different color spaces and different `skimage.hog()` parameters 
 
 Here is an example using the multiple color spaces and HOG parameters of `orientations=12`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`:
 ![alt text][image2]
-
+![alt text][image3]
+![alt text][image4]
+![alt text][image5]
+![alt text][image6]
+![alt text][image7]
 
 ##### Choice of HOG parameters.
 
@@ -86,11 +114,16 @@ This involved croping the image to the size of multiple bounding boxes and searc
 The sliding window search was implemented in cells 18 through 30 of the [notebook](./notebook.ipynb).
 
 Here's an example of an image with multiple bounding boxes to be searched.
-![alt text][image3]
+![alt text][image8]
 
 #### 1. Window bounds
 Since we do not have any expectations that a vehicles will be in the sky(top half of the car camera image), we could resonably apply the window search to the lower half of the photo.
-![alt text][image4]
+![alt text][image9]
+![alt text][image10]
+![alt text][image11]
+![alt text][image12]
+![alt text][image13]
+![alt text][image14]
 
 #### 2. Bounding box scaling
 Vehicles tend to vary in size and where they appear in relation to the perpective of the cars camera could determine its size in the image. As a result, a single bounding box size will not be sufficient to detect all vehicles.
@@ -100,7 +133,12 @@ I came up with the following formula for computing the reasonable bounds based o
 `y_boundary_end = y_boundary_start + (base_window_height * scale * 1.5)`.
 
 This led to more precise vehicle detections at all perspectives of the car camera image.
-![alt text][image5]
+![alt text][image15]
+![alt text][image16]
+![alt text][image17]
+![alt text][image18]
+![alt text][image19]
+![alt text][image20]
 
 
 ### Eliminating outliers
@@ -110,20 +148,29 @@ This led to more precise vehicle detections at all perspectives of the car camer
 I recorded the positions of positive detections in each frame of the video. From the positive detections I created a heatmap of recurring pixels and then thresholded that map to identify vehicle positions. I then used `scipy.ndimage.measurements.label()` to identify individual blobs in the heatmap. I then assumed each blob corresponded to a vehicle. I constructed bounding boxes to cover the area of each blob detected. This was all performed in cells 32 through 34. 
 
 Here's an example result showing the heatmap from a series of test images, the result of `scipy.ndimage.measurements.label()` and the bounding boxes then overlaid on the each image:
-![alt text][image6]
+![alt text][image21]
+![alt text][image22]
+![alt text][image23]
+![alt text][image24]
+![alt text][image25]
 
 
 #### 2. Historical vehicle detection
 In order to smoothen the detection of vehicles from frame to frame of a video stream and ensure outliers don't blink in and out, I created a class to hold information about the vehicle detection of the current frame. The bounding boxes that had been detected in the current frame are saved along with information about the `n` most recent frames detected. A second heat map is then created from all the bounding boxes of the last `n` frames and a second stricter threshold is applied. Only pixels that are prominent across all `n` frames are used to create a final bounding box of a high confidence vehicle detection. This was all implemented from cells 35 through 38.
 The following is an example of a heat map created based of historical data of the 2 most recent frames:
-![alt text][image7]
+![alt text][image26]
+![alt text][image27]
+![alt text][image28]
+![alt text][image29]
+![alt text][image30]
+![alt text][image31]
 
 
 ### Vehicle detection pipeline
 
 Ultimately I searched for vehicles using four bounding box scales (1.0,1.5,2.0,2.5), all 3 channels of the YUV color space, HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result.  Here's a snapshot of the final output video:
 
-![alt text][image8]
+![alt text][image32]
 ---
 
 ### Final vehicles detection video
