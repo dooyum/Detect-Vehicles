@@ -181,9 +181,9 @@ Here's a [link to my video result](./output_videos/project_video.mp4)
 
 ### Discussion
 
-#### 1. What worked well?
-
 Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.
+
+#### 1. What worked well?
 
 I took an approach that valued features from images which provided information on the shape and color of the objects in the image, rather than just the color. Training a classifier using color features alone would have resulted in more false positives as items with vibrant colors like road signs could be missclassified.
 
