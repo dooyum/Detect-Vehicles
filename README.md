@@ -64,7 +64,7 @@ Next I extracted feature vectors from the training images in order to train a `c
 
 The first two feature vectors extracted from the image were color features. This feature exrtaction can be seen in cells 7 through 9 of the [notebook](./notebook.ipynb). 
 
-The first of the color features was created by bining the image using an `8x8 spatial size`.
+The first of the color features was created by bining the image using an `16x16 spatial size`.
 
 The second was derived by creating a histogram for each channel in the image on combining them into a single vector.
 
