@@ -77,6 +77,7 @@ Next, I applied a HOG transform to the training images in order to use the shape
 I then explored different color spaces and different `skimage.hog()` parameters (`orientations`, `pixels_per_cell`, and `cells_per_block`).  I grabbed random images from the training data and displayed them to get a feel for what the `skimage.hog()` output looks like.
 
 Here is an example using the multiple color spaces and HOG parameters of `orientations=12`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`:
+
 ![alt text][image2]
 ![alt text][image3]
 ![alt text][image4]
