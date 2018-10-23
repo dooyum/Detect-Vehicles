@@ -175,7 +175,7 @@ Ultimately I searched for vehicles using four bounding box scales (1.0,1.5,2.0,2
 ---
 
 ### Final vehicles detection video
-Here's a [link to my video result](./output_videos/project_video.mp4)
+Here's a [link to my video result](./output_videos/project.mp4)
 
 ---
 
